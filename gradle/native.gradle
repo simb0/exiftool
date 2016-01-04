@@ -1,0 +1,32 @@
+/**
+ * This build file contains some logic to download exiftool
+ */
+
+def resourceDir = file("src/main/resources")
+def downloadsDir = new File(buildDir, 'downloads');
+
+task downloadWindowsBinary {
+    def downloadLink = new URL("http://www.sno.phy.queensu.ca/~phil/exiftool/exiftool-${exiftoolVersion}.zip")
+    def zip = new File(downloadsDir, "exif.zip")
+    outputs.file(zip)
+
+    doFirst {
+        zip.parentFile.mkdirs()
+        downloadLink.withInputStream { i -> zip.withOutputStream { it << i } }
+    }
+}
+
+task extractWindowsBinary(type: Copy, dependsOn: downloadWindowsBinary) {
+    from zipTree(downloadWindowsBinary.outputs.getFiles().singleFile)
+    into downloadsDir
+}
+
+task deployWindowsBinary(type: Copy, dependsOn: extractWindowsBinary) {
+    from new File(downloadsDir, "exiftool(-k).exe")
+    rename {
+        fileName -> fileName.replace("(-k)", "")
+    }
+    into resourceDir
+}
+
+processResources.dependsOn deployWindowsBinary

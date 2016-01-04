@@ -1,0 +1,18 @@
+### Java template
+*.class
+.mtj.tmp/
+*.jar
+*.war
+*.ear
+*.exe
+hs_err_pid*
+
+### Gradle template
+.gradle
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+
+### IntelliJ Template
+.idea/
+*.iml

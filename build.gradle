@@ -1,0 +1,19 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+dependencies {
+    compile 'me.biesaart:commons:1.4.0'
+    compile 'com.google.guava:guava:19.0'
+
+    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile 'org.testng:testng:6.9.10'
+}
+
+apply from: file('gradle/native.gradle')
+test.useTestNG()
