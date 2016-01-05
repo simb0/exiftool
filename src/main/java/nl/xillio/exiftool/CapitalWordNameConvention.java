@@ -18,7 +18,7 @@ package nl.xillio.exiftool;
 import nl.xillio.exiftool.query.TagNameConvention;
 
 /**
- * This TagNameConvention will not convert the tags.
+ * This TagNameConvention will not convert the tags, because the default output of Exiftool is already Capital Word formatted.
  *
  * @author Thomas Biesaart
  */
