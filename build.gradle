@@ -37,7 +37,5 @@ artifacts {
     archives sourceJar
 }
 
-
-
 apply from: file('gradle/native.gradle')
 test.useTestNG()
