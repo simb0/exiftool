@@ -32,3 +32,7 @@ We were in need of a java wrapper for exiftool ourselves but found that
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+## Exiftool
+
+Includes a binary distribution of Exiftool by Phil Harvey, licensed under [the Artistic License](http://dev.perl.org/licenses/artistic.html). Download the original binaries from: [http://www.sno.phy.queensu.ca/~phil/exiftool/](http://www.sno.phy.queensu.ca/~phil/exiftool/)
