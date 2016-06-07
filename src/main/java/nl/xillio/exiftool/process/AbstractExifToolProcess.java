@@ -19,8 +19,13 @@ package nl.xillio.exiftool.process;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * This class represents the base implementation of the ExifToolProcess.
@@ -29,6 +34,7 @@ import java.util.Arrays;
  */
 abstract class AbstractExifToolProcess implements ExifToolProcess {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractExifToolProcess.class);
+    public static final String PATH_VARIABLE = "PATH";
     private Status status = Status.NEW;
     private Process process;
     private IOStream streams;
@@ -101,6 +107,25 @@ abstract class AbstractExifToolProcess implements ExifToolProcess {
         }
     }
 
+    /**
+     * Search for the exiftool binary on the path environment variable.
+     * @return The path to exiftool or null if not found.
+     */
+    protected String searchExiftoolOnPath() throws IOException {
+        for (String entry : System.getenv(PATH_VARIABLE).split(getPathSeparator())) {
+            Optional<Path> result = Files.find(Paths.get(entry), 0,
+                    (path, attributes) -> path.endsWith("exiftool") && path.toFile().canExecute()).findAny();
+            if (result.isPresent()) {
+                return result.get().toAbsolutePath().toString();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return A regex for splitting the PATH environment variable into separate parts
+     */
+    protected abstract String getPathSeparator();
 
     protected abstract Process buildProcess(ProcessBuilder processBuilder) throws IOException;
 

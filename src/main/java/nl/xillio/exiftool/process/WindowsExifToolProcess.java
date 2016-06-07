@@ -69,4 +69,9 @@ public class WindowsExifToolProcess extends AbstractExifToolProcess {
         processBuilder.command(nativeBinary.toString(), "-stay_open", "True", "-@", "-");
         return processBuilder.start();
     }
+
+    @Override
+    protected String getPathSeparator() {
+        return ";";
+    }
 }

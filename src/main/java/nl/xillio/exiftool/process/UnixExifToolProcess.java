@@ -29,6 +29,7 @@ public class UnixExifToolProcess extends AbstractExifToolProcess {
     @Override
     protected Process buildProcess(ProcessBuilder processBuilder) throws IOException {
         String exifBin = System.getenv("exiftool_bin");
+
         if (exifBin == null) {
             throw new IOException("Please set your exiftool_bin environmental variable to the path to your exiftool installation.");
         }
@@ -41,6 +42,11 @@ public class UnixExifToolProcess extends AbstractExifToolProcess {
         }
 
         return processBuilder.start();
+    }
+
+    @Override
+    protected String getPathSeparator() {
+        return ":";
     }
 
     @Override

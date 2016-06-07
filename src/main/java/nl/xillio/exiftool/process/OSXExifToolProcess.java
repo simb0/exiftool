@@ -37,6 +37,11 @@ public class OSXExifToolProcess extends AbstractExifToolProcess {
     }
 
     @Override
+    protected String getPathSeparator() {
+        return ":";
+    }
+
+    @Override
     public boolean needInit() {
         return false;
     }
