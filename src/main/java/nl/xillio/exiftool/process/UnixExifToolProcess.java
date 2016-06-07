@@ -17,6 +17,7 @@ package nl.xillio.exiftool.process;
 
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * This is the linux implementation of the {@link ExifToolProcess}.
@@ -32,13 +33,13 @@ public class UnixExifToolProcess extends AbstractExifToolProcess {
             throw new IOException("Please set your exiftool_bin environmental variable to the path to your exiftool installation.");
         }
 
-        String perlBin = System.getenv("perl_bin");
+        processBuilder.command(exifBin, "-stay_open", "True", "-@", "-");
 
-        if (perlBin == null) {
-            perlBin = "/usr/bin/perl";
+        String perlBin = System.getenv("perl_bin");
+        if (perlBin!=null) {
+            processBuilder.command().add(0, perlBin);
         }
 
-        processBuilder.command(perlBin, exifBin, "-stay_open", "True", "-@", "-");
         return processBuilder.start();
     }
 
