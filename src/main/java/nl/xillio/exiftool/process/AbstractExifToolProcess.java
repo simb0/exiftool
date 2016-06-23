@@ -111,11 +111,15 @@ abstract class AbstractExifToolProcess implements ExifToolProcess {
      * Search for the exiftool binary on the path environment variable.
      * @return The path to exiftool or null if not found.
      */
-    protected String searchExiftoolOnPath() throws IOException {
+    protected String searchExiftoolOnPath() {
         for (String entry : getPathEntries()) {
-            Optional<Path> result = findExiftool(entry);
-            if (result.isPresent()) {
-                return result.get().toAbsolutePath().toString();
+            try {
+                Optional<Path> result = findExiftool(entry);
+                if (result.isPresent()) {
+                    return result.get().toAbsolutePath().toString();
+                }
+            } catch (IOException e) {
+                LOGGER.error("Could not search path [" + entry + "] for Exiftool", e);
             }
         }
         return null;
@@ -136,8 +140,8 @@ abstract class AbstractExifToolProcess implements ExifToolProcess {
      */
     protected Optional<Path> findExiftool(String directory) throws IOException {
         return Files.find(Paths.get(directory), 1,
-                        (path1, attributes) ->
-                                path1.getFileName().toString().matches(EXIFTOOL_EXE) && path1.toFile().canExecute()).findAny();
+                (path1, attributes) ->
+                        path1.getFileName().toString().matches(EXIFTOOL_EXE) && path1.toFile().canExecute()).findAny();
     }
 
     /**
