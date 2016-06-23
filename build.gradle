@@ -5,7 +5,6 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'sonarqube'
 
 sourceCompatibility = 1.8
 
