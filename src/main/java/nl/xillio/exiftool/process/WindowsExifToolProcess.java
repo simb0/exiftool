@@ -71,7 +71,7 @@ public class WindowsExifToolProcess extends AbstractExifToolProcess {
     }
 
     @Override
-    protected String getPathSeparator() {
+    protected String getPathVariableSeparator() {
         return ";";
     }
 }

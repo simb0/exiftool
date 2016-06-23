@@ -19,7 +19,6 @@ package nl.xillio.exiftool.process;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,6 +34,7 @@ import java.util.Optional;
 abstract class AbstractExifToolProcess implements ExifToolProcess {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractExifToolProcess.class);
     public static final String PATH_VARIABLE = "PATH";
+    public static final String EXIFTOOL_EXE = "exiftool(\\.exe)?";
     private Status status = Status.NEW;
     private Process process;
     private IOStream streams;
@@ -112,9 +112,8 @@ abstract class AbstractExifToolProcess implements ExifToolProcess {
      * @return The path to exiftool or null if not found.
      */
     protected String searchExiftoolOnPath() throws IOException {
-        for (String entry : System.getenv(PATH_VARIABLE).split(getPathSeparator())) {
-            Optional<Path> result = Files.find(Paths.get(entry), 0,
-                    (path, attributes) -> path.endsWith("exiftool") && path.toFile().canExecute()).findAny();
+        for (String entry : getPathEntries()) {
+            Optional<Path> result = findExiftool(entry);
             if (result.isPresent()) {
                 return result.get().toAbsolutePath().toString();
             }
@@ -123,9 +122,28 @@ abstract class AbstractExifToolProcess implements ExifToolProcess {
     }
 
     /**
+     * @return The split entries from the PATH environment variable
+     */
+    protected String[] getPathEntries() {
+        return System.getenv(PATH_VARIABLE).split(getPathVariableSeparator());
+    }
+
+    /**
+     * Search for Exiftool in a directory
+     * @param directory The directory to look through
+     * @return An optional containing a {@link Path} to the Exiftool executable
+     * @throws IOException When iterating over files in the folder fails
+     */
+    protected Optional<Path> findExiftool(String directory) throws IOException {
+        return Files.find(Paths.get(directory), 1,
+                        (path1, attributes) ->
+                                path1.getFileName().toString().matches(EXIFTOOL_EXE) && path1.toFile().canExecute()).findAny();
+    }
+
+    /**
      * @return A regex for splitting the PATH environment variable into separate parts
      */
-    protected abstract String getPathSeparator();
+    protected abstract String getPathVariableSeparator();
 
     protected abstract Process buildProcess(ProcessBuilder processBuilder) throws IOException;
 

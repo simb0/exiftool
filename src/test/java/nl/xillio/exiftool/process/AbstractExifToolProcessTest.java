@@ -70,6 +70,11 @@ public class AbstractExifToolProcessTest {
         }
 
         @Override
+        protected String getPathVariableSeparator() {
+            return ":";
+        }
+
+        @Override
         protected Process buildProcess(ProcessBuilder processBuilder) throws IOException {
             return process;
         }
