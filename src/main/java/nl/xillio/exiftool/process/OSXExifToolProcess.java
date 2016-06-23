@@ -23,7 +23,7 @@ import java.io.IOException;
  *
  * @author Thomas Biesaart
  */
-public class OSXExifToolProcess extends AbstractExifToolProcess {
+public class OSXExifToolProcess extends UnixExifToolProcess {
 
     @Override
     protected Process buildProcess(ProcessBuilder processBuilder) throws IOException {
@@ -37,20 +37,5 @@ public class OSXExifToolProcess extends AbstractExifToolProcess {
 
         processBuilder.command(exifBin, "-stay_open", "True", "-@", "-");
         return processBuilder.start();
-    }
-
-    @Override
-    protected String getPathVariableSeparator() {
-        return ":";
-    }
-
-    @Override
-    public boolean needInit() {
-        return false;
-    }
-
-    @Override
-    public void init() throws IOException {
-        // No need to deploy. We just need the exiftool installed
     }
 }
