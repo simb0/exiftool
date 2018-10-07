@@ -17,6 +17,28 @@ We were in need of a java wrapper for exiftool ourselves but found that
 - [SLF4J](https://github.com/qos-ch/slf4j)
 - [Apache Commons Lang](https://github.com/apache/commons-lang)
 
+## Usage
+    Windows:
+    ProcessPool exifToolPool = ProcessPool.buildPool(Paths.get("WINDOWS PATH TO exiftool"));
+    Unix MacOs:
+    ProcessPool exifToolPool = ProcessPool.buildPool(null);
+Pool is now ready wo work. The system processes itself are startet when needed.
+ 
+    try (ExifTool tool = exifToolPool.get()) {
+        /** File to inspect **/
+        File f = new File("test.mp4");
+        
+        /** Attributes neded from exiftool **/
+        Projection p = new Projection();
+        p.put("CreateDate", true);
+        p.put("FileCreateDate", true);
+        p.put("DateTimeOriginal", true);
+        
+        ExifTags result = tool.readFieldsForFile(f.toPath(), p, new FileQueryOptionsImpl());
+    }
+{filePath=test.mp4, fileCreationDate/time=2018:09:06 22:08:25+02:00, createDate=0000:00:00 00:00:00}
+
+    
 ## License
 
     Copyright 2015 Xillio BV
