@@ -33,9 +33,9 @@ Pool is now ready wo work. The system processes itself are startet when needed.
         
         /** Attributes neded from exiftool **/
         Projection p = new Projection();
-        p.put("CreateDate", true);
-        p.put("FileCreateDate", true);
-        p.put("DateTimeOriginal", true);
+        p.put(StandardTag.CREATE_DATE, true);
+        p.put(StandardTag.FILE_CREATE_DATE, true);
+        p.put(StandardTag.DATE_TIME_ORIGINAL, true);
         
         ExifTags result = tool.readFieldsForFile(f.toPath(), p, new FileQueryOptionsImpl());
     }
