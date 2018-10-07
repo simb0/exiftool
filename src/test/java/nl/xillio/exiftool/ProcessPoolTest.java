@@ -15,51 +15,50 @@
  */
 package nl.xillio.exiftool;
 
-import nl.xillio.exiftool.process.ExifToolProcess;
+import nl.xillio.exiftool.pool.ProcessPool;
 import org.testng.annotations.Test;
 
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
+import java.nio.file.Paths;
+
+import static org.assertj.core.api.Java6Assertions.assertThat;
 
 /**
- * @author Thomas Biesaart
+ * @author Alexander Drebert
  */
 public class ProcessPoolTest {
 
+    private ProcessPool testee = ProcessPool.buildPool(Paths.get("any"));
+
     @Test
-    public void testGetProcessRoutine() {
-        Factory factory = mock(Factory.class, RETURNS_DEEP_STUBS);
-        when(factory.build().isAvailable()).thenReturn(true);
-
-        ProcessPool processPool = new ProcessPool(factory::build);
-
-        verify(factory, times(1)).build();
-
-        try (ExifTool tool = processPool.getAvailable()) {
-            verify(factory, times(2)).build();
-        }
-
-        try (ExifTool tool = processPool.getAvailable()) {
-            verify(factory, times(2)).build();
-
-            try (ExifTool tool2 = processPool.getAvailable()) {
-                verify(factory, times(3)).build();
-            }
-        }
-
-        try (ExifTool tool = processPool.getAvailable()) {
-            verify(factory, times(3)).build();
-        }
-
-        assertEquals(processPool.size(), 2);
-        processPool.clean();
-        assertEquals(processPool.size(), 0);
-        processPool.close();
-
-
+    public void testCreatePool() {
+        assertThat(testee.size()).isEqualTo(6);
     }
 
-    private interface Factory {
-        ExifToolProcess build();
+    @Test
+    public void testGetProcessFromPool() {
+        assertThat(testee.get()).isNotNull();
     }
+
+    @Test(expectedExceptions = ProcessPool.NoExifProcessesAvailable.class)
+    public void testOverload() {
+        for (int i = 0; i < testee.maxPoolSize+1; i++) {
+            assertThat(testee.get()).isNotNull();
+        }
+        assertThat(testee.size()).isEqualTo(0);
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testRelease() {
+        for (int i = 0; i < testee.maxPoolSize-1; i++) {
+            assertThat(testee.get()).isNotNull();
+        }
+        assertThat(testee.size()).isEqualTo(1);
+        // 1 available get() -> 0 close -> 1
+        testee.get().close();
+        assertThat(testee.size()).isEqualTo(1);
+
+        assertThat(testee.get()).isNotNull();
+        assertThat(testee.size()).isEqualTo(0);
+    }
+
 }

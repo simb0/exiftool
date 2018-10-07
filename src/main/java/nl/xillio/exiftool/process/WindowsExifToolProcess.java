@@ -16,7 +16,7 @@
 package nl.xillio.exiftool.process;
 
 
-import nl.xillio.exiftool.ProcessPool;
+import nl.xillio.exiftool.pool.ProcessPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

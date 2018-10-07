@@ -20,6 +20,8 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.10.19'
     testCompile 'org.testng:testng:6.9.10'
     testCompile 'commons-io:commons-io:2.4'
+    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.1'
+
 }
 
 license {
@@ -37,6 +39,4 @@ artifacts {
 }
 
 
-
-apply from: file('gradle/native.gradle')
 test.useTestNG()
