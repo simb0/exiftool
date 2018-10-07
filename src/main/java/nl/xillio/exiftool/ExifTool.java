@@ -69,12 +69,12 @@ public class ExifTool implements AutoCloseable {
 
         File f = new File("C:\\Users\\adrebert\\Picardo\\rest\\src\\test\\resources\\video\\test.mp4");
         Projection p = new Projection();
-        p.put("CreateDate", true);
-        p.put("FileCreateDate", true);
-        p.put("DateTimeOriginal", true);
-        for (int z = 0; z < 100; z++) {
+        p.put(StandardTag.CREATE_DATE, true);
+        p.put(StandardTag.FILE_CREATE_DATE, true);
+        p.put(StandardTag.DATE_TIME_ORIGINAL, true);
+        for (int z = 0; z < 1; z++) {
             new Thread(() -> {
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 1; i++) {
                     try (ExifTool tool = exifToolPool.get()) {
                         ExifTags result = null;
                         try {

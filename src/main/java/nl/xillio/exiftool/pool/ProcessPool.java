@@ -68,6 +68,10 @@ public class ProcessPool implements AutoCloseable, Pool<ExifToolProcess> {
         }
     }
 
+    /**
+     * @throws NoExifProcessesAvailable if no process is after the timeout available
+     * @return available process bound with the ExifTool
+     */
     @Override
     public ExifTool get() {
         if (!shutdown) {

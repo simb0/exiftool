@@ -69,7 +69,7 @@ public class FolderQueryOptionsImpl extends AbstractQueryOptions implements Fold
                         } else {
                             result.add("--ext");
                         }
-                        result.add(extension);
+                        result.add(extension.getName());
                     }
             );
         }

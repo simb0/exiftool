@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author Thomas Biesaart
  */
-public class Projection extends HashMap<String, Boolean> {
+public class Projection extends HashMap<StandardTag, Boolean> {
 
     /**
      * Get the tag arguments for this projection.
@@ -37,7 +37,7 @@ public class Projection extends HashMap<String, Boolean> {
 
         forEach((key, value) -> {
             String prefix = value ? "-" : "--";
-            result.add(prefix + key);
+            result.add(prefix + key.getName());
         });
 
         return result;
