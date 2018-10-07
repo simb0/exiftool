@@ -1,3 +1,6 @@
+#What's new
+Fixed size blockingqueue mechanism implemented
+
 # Java Exiftool
 Exiftool info in java.
 
