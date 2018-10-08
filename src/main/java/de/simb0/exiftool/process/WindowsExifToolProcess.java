@@ -66,7 +66,7 @@ public class WindowsExifToolProcess extends AbstractExifToolProcess {
 
     @Override
     protected Process buildProcess(ProcessBuilder processBuilder) throws IOException {
-        processBuilder.command(nativeBinary.toString(), "-stay_open", "True", "-@", "-");
+        processBuilder.command(nativeBinary.toString(), "-s", "-stay_open", "True", "-@", "-");
         return processBuilder.start();
     }
 }

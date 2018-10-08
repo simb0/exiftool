@@ -32,7 +32,7 @@ public class OSXExifToolProcess extends AbstractExifToolProcess {
             exifBin = "/usr/local/bin/exiftool";
         }
 
-        processBuilder.command(exifBin, "-stay_open", "True", "-@", "-");
+        processBuilder.command(exifBin, "-s", "-stay_open", "True", "-@", "-");
         return processBuilder.start();
     }
 
