@@ -122,6 +122,8 @@ public enum StandardTag implements Tag {
 	CREATE_DATE("CreateDate", Type.STRING),
 	FILE_CREATE_DATE("FileCreateDate", Type.STRING),
 	SOURCE_FILE("SourceFile", Type.STRING),
+	SOURCE_IMAGE_WIDTH("SourceImageWidth", Type.INTEGER),
+	SOURCE_IMAGE_HEIGHT("SourceImageHeight", Type.INTEGER),
 
 	/**
 	 * This tag is deprecated, use {@link #CREATE_DATE} instead.
