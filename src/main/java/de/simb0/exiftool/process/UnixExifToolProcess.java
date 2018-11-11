@@ -38,7 +38,7 @@ public class UnixExifToolProcess extends AbstractExifToolProcess {
             perlBin = "/usr/bin/perl";
         }
 
-        processBuilder.command(perlBin, exifBin, "-s", "-stay_open", "True", "-@", "-");
+        processBuilder.command(perlBin, exifBin, "-s", "-n", "-stay_open", "True", "-@", "-");
         return processBuilder.start();
     }
 
