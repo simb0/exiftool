@@ -52,7 +52,7 @@ public class ProcessPool implements AutoCloseable, Pool<ExifToolProcess> {
     private List<ExifToolProcess> leasedProcesses = new ArrayList<>();
     private final Supplier<ExifToolProcess> processBuilder;
     private boolean shutdown;
-    public final int maxPoolSize = 2;
+    public final int maxPoolSize = 6;
     public final int poolTimeout = 5;
 
     private ProcessPool() {

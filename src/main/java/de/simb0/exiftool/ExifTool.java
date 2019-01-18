@@ -65,8 +65,6 @@ public class ExifTool implements AutoCloseable {
 
 
     public static void main(String args[]) {
-        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
-
         ProcessPool exifToolPool = ProcessPool.buildPool(Paths.get("C:\\Users\\adrebert\\Picardo\\rest\\src\\test\\resources\\exiftool.exe"));
 
         File f = new File("C:\\Users\\adrebert\\Picardo\\rest\\src\\test\\resources\\video\\test.mp4");
