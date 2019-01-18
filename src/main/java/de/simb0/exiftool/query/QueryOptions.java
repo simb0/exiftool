@@ -24,9 +24,5 @@ import java.util.List;
  */
 public interface QueryOptions {
 
-    TagNameConvention getTagNameConvention();
-
-    void setTagNameConvention(TagNameConvention tagNameConvention);
-
     List<String> buildArguments();
 }

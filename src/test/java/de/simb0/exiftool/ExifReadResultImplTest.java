@@ -32,7 +32,7 @@ public class ExifReadResultImplTest {
         BufferedReader bufferedReader = new BufferedReader(new StringReader("======== D:\\File\nFileSize: 5\nXPAuthor: 234tgr\n{ready}"));
         ExecutionResult executionResult = new ExecutionResult(bufferedReader, () -> {
         }, "{ready}");
-        ExifReadResultImpl readResult = new ExifReadResultImpl(executionResult, 10, a -> a);
+        ExifReadResultImpl readResult = new ExifReadResultImpl(executionResult, 10);
 
         assertTrue(readResult.hasNext());
 

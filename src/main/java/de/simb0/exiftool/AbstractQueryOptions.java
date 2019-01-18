@@ -15,24 +15,11 @@
  */
 package de.simb0.exiftool;
 
-import de.simb0.exiftool.query.TagNameConvention;
 import de.simb0.exiftool.query.QueryOptions;
 
 /**
  * @author Thomas Biesaart
  */
 abstract class AbstractQueryOptions implements QueryOptions {
-    private TagNameConvention tagNameConvention = new LowerCamelCaseNameConvention();
-
-    @Override
-    public TagNameConvention getTagNameConvention() {
-        return tagNameConvention;
-    }
-
-    @Override
-    public void setTagNameConvention(TagNameConvention tagNameConvention) {
-        this.tagNameConvention = tagNameConvention;
-    }
-
 
 }

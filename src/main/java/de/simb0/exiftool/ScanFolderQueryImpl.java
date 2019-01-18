@@ -43,6 +43,6 @@ class ScanFolderQueryImpl extends AbstractQuery<FolderQueryOptions, ExifReadResu
 
     @Override
     protected ExifReadResult buildResult(ExecutionResult executionResult) {
-        return new ExifReadResultImpl(executionResult, 100, getOptions().getTagNameConvention());
+        return new ExifReadResultImpl(executionResult, 100);
     }
 }

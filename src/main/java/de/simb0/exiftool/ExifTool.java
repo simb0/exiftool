@@ -65,6 +65,8 @@ public class ExifTool implements AutoCloseable {
 
 
     public static void main(String args[]) {
+        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+
         ProcessPool exifToolPool = ProcessPool.buildPool(Paths.get("C:\\Users\\adrebert\\Picardo\\rest\\src\\test\\resources\\exiftool.exe"));
 
         File f = new File("C:\\Users\\adrebert\\Picardo\\rest\\src\\test\\resources\\video\\test.mp4");
@@ -72,15 +74,16 @@ public class ExifTool implements AutoCloseable {
         p.put(StandardTag.CREATE_DATE, true);
         p.put(StandardTag.FILE_CREATE_DATE, true);
         p.put(StandardTag.DATE_TIME_ORIGINAL, true);
-        for (int z = 0; z < 1; z++) {
+        for (int z = 0; z < 100; z++) {
             new Thread(() -> {
-                for (int i = 0; i < 1; i++) {
+                for (int i = 0; i < 10; i++) {
                     try (ExifTool tool = exifToolPool.get()) {
                         ExifTags result = null;
                         try {
                             result = tool.readFieldsForFile(f.toPath(), p, new FileQueryOptionsImpl());
                         } catch (IOException e) {
                             e.printStackTrace();
+                            System.exit(1);
                         }
                         System.out.println(result);
                     }
@@ -92,4 +95,5 @@ public class ExifTool implements AutoCloseable {
             }).start();
         }
     }
+
 }

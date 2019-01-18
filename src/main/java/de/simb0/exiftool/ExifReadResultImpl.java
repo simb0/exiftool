@@ -17,7 +17,6 @@ package de.simb0.exiftool;
 
 import de.simb0.exiftool.process.ExecutionResult;
 import de.simb0.exiftool.query.ExifReadResult;
-import de.simb0.exiftool.query.TagNameConvention;
 import de.simb0.exiftool.query.ExifTags;
 import de.simb0.exiftool.query.StandardTag;
 import org.slf4j.Logger;
@@ -35,16 +34,14 @@ class ExifReadResultImpl implements ExifReadResult {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExifReadResultImpl.class);
     private final ExecutionResult executionResult;
     private final int cacheSize;
-    private final TagNameConvention tagNameConvention;
     private static int counter;
     private final Queue<ExifTags> tagsQueue;
     private ExifTags currentValue;
     private boolean isReading = false;
 
-    public ExifReadResultImpl(ExecutionResult executionResult, int cacheSize, TagNameConvention tagNameConvention) {
+    public ExifReadResultImpl(ExecutionResult executionResult, int cacheSize) {
         this.executionResult = executionResult;
         this.cacheSize = cacheSize;
-        this.tagNameConvention = tagNameConvention;
         this.tagsQueue = new ArrayDeque<>(cacheSize + 3);
 
         Thread thread = new Thread(this::run, "ExecutionResult-" + counter++);

@@ -43,18 +43,18 @@ class ScanFileQueryImpl extends AbstractQuery<FileQueryOptions, ExifTags> implem
 
     @Override
     protected ExifTags buildResult(ExecutionResult executionResult) {
-        TagNameConvention nameConvention = getOptions().getTagNameConvention();
         ExifTags result = new ExifTagsImpl();
         result.put(StandardTag.SOURCE_FILE, getPath().toAbsolutePath().toString());
 
         executionResult.forEachRemaining(
-                line -> processLine(line, nameConvention, result)
+                line -> processLine(line, result)
         );
 
         return result;
     }
 
-    private void processLine(String line, TagNameConvention convention, ExifTags result) {
+    private void processLine(String line, ExifTags result) {
+        LOGGER.debug("Processing line {}", line);
         int separator = line.indexOf(":");
 
         if (separator == -1) {

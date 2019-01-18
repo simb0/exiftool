@@ -52,7 +52,7 @@ public class ProcessPool implements AutoCloseable, Pool<ExifToolProcess> {
     private List<ExifToolProcess> leasedProcesses = new ArrayList<>();
     private final Supplier<ExifToolProcess> processBuilder;
     private boolean shutdown;
-    public final int maxPoolSize = 6;
+    public final int maxPoolSize = 2;
     public final int poolTimeout = 5;
 
     private ProcessPool() {
@@ -79,7 +79,7 @@ public class ProcessPool implements AutoCloseable, Pool<ExifToolProcess> {
                 ExifToolProcess process = processQueue.poll(poolTimeout, TimeUnit.SECONDS);
 
                 if(process == null) {
-                    throw new NoExifProcessesAvailable(String.format("The maxPoolSize was %s leased processes %s, waitet %s seconds.", maxPoolSize, leasedProcesses.size(), poolTimeout));
+                   throw new NoExifProcessesAvailable(String.format("The maxPoolSize was %s leased processes %s, waitet %s seconds.", maxPoolSize, leasedProcesses.size(), poolTimeout));
                 }
 
                 leasedProcesses.add(process);

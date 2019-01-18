@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,6 +39,7 @@ abstract class AbstractQuery<T extends QueryOptions, U> implements Query<U> {
     private final Path path;
     private final T options;
     private final Projection projection;
+    private final String[] mandatoryOptions = new String[] {"-s", "-n"};
 
     protected AbstractQuery(Path path, Projection projection, T options) throws NoSuchFileException {
         this.path = path;
@@ -56,6 +58,7 @@ abstract class AbstractQuery<T extends QueryOptions, U> implements Query<U> {
         result.add(path.toAbsolutePath().toString());
         result.addAll(options.buildArguments());
         result.addAll(projection.buildArguments());
+        result.addAll(Arrays.asList(mandatoryOptions));
         return result;
     }
 
