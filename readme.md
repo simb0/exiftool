@@ -22,9 +22,9 @@ We were in need of a java wrapper for exiftool ourselves but found that
 
 ## Usage
     Windows:
-    ProcessPool exifToolPool = ProcessPool.buildPool(Paths.get("WINDOWS PATH TO exiftool"));
+    ProcessPool exifToolPool = ProcessPool.buildPool(Paths.get("WINDOWS PATH TO exiftool"), 5, 5);
     Unix MacOs:
-    ProcessPool exifToolPool = ProcessPool.buildPool(null);
+    ProcessPool exifToolPool = ProcessPool.buildPool(null, 5, 5);
 Pool is now ready wo work. The system processes itself are startet when needed.
  
     try (ExifTool tool = exifToolPool.get()) {

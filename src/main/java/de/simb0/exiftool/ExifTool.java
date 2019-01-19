@@ -65,7 +65,7 @@ public class ExifTool implements AutoCloseable {
 
 
     public static void main(String args[]) {
-        ProcessPool exifToolPool = ProcessPool.buildPool(Paths.get("C:\\Users\\adrebert\\Picardo\\rest\\src\\test\\resources\\exiftool.exe"));
+        ProcessPool exifToolPool = ProcessPool.buildPool(Paths.get("C:\\Users\\adrebert\\Picardo\\rest\\src\\test\\resources\\exiftool.exe"), 5, 5);
 
         File f = new File("C:\\Users\\adrebert\\Picardo\\rest\\src\\test\\resources\\video\\test.mp4");
         Projection p = new Projection();

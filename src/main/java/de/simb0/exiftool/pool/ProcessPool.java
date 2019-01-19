@@ -52,14 +52,18 @@ public class ProcessPool implements AutoCloseable, Pool<ExifToolProcess> {
     private List<ExifToolProcess> leasedProcesses = new ArrayList<>();
     private final Supplier<ExifToolProcess> processBuilder;
     private boolean shutdown;
-    public final int maxPoolSize = 6;
-    public final int poolTimeout = 5;
+    private final int maxPoolSize;
+    private final int poolTimeout;
 
-    private ProcessPool() {
+    private ProcessPool(int maxPoolSize, int poolTimeout) {
+        this.maxPoolSize = maxPoolSize;
+        this.poolTimeout = poolTimeout;
         processBuilder = null;
     }
 
-    private ProcessPool(Supplier<ExifToolProcess> processBuilder) {
+    private ProcessPool(Supplier<ExifToolProcess> processBuilder, int maxPoolSize, int poolTimeout) {
+        this.maxPoolSize = maxPoolSize;
+        this.poolTimeout = poolTimeout;
         this.processBuilder = processBuilder;
         shutdown = false;
         processQueue = new LinkedBlockingQueue();
@@ -121,17 +125,24 @@ public class ProcessPool implements AutoCloseable, Pool<ExifToolProcess> {
         return processQueue.size();
     }
 
-    public static ProcessPool buildPool(Path windowsBinaryLocation) {
+    /**
+     *
+     * @param windowsBinaryLocation path to exiftool.exe
+     * @param maxPoolSize the max size of the pool
+     * @param poolTimeout wait time for a poolprocess in sec before an exception is thrown
+     * @return
+     */
+    public static ProcessPool buildPool(Path windowsBinaryLocation, int maxPoolSize, int poolTimeout) {
         if (SystemUtils.IS_OS_WINDOWS) {
-            return new ProcessPool(() -> new WindowsExifToolProcess(windowsBinaryLocation));
+            return new ProcessPool(() -> new WindowsExifToolProcess(windowsBinaryLocation), maxPoolSize, poolTimeout);
         }
 
         if (SystemUtils.IS_OS_MAC) {
-            return new ProcessPool(OSXExifToolProcess::new);
+            return new ProcessPool(OSXExifToolProcess::new, maxPoolSize, poolTimeout);
         }
 
         if (SystemUtils.IS_OS_UNIX) {
-            return new ProcessPool(UnixExifToolProcess::new);
+            return new ProcessPool(UnixExifToolProcess::new, maxPoolSize, poolTimeout);
         }
 
         throw new NotImplementedException("No implementation for " + SystemUtils.OS_NAME);
